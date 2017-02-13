@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<script src="jquery.js"></script>
+<script>
+	// for (var i = 100; i < 200; i++) {
+	// 	if (i%3==1&&i%4==2&&i%5==3) {
+	// 		console.log(`一共有${i}人`);
+	// 	}
+	// }
+	// ........
+	// var i="wowdkjfdkfj"
+	// for (let i = 0; i < 10; i++) {
+	// 	console.log(i)
+	// }
+	// console.log(i)
+	// ......
+	// function aa(a,b){
+	// 	var a=a||10;var b=b||10;
+	// 	var str="<table>";
+	// 	for (var i = 0; i < a; i++) {
+	// 		str+="<tr>";
+	// 		for (var j = 0; j < b; j++) {
+	// 			str+="<td>"+j+"</td>";
+	// 		};
+	// 		str+="</tr>"
+	// 	}
+	// 	str+="</table>";
+	// 	document.write(str);
+	// }
+	// aa(4,7);
+// ........
+
+
+	// function aa(){
+	// 	var num=10;
+	// 	return function(){
+	// 		console.log(num++);
+	// 	}
+	// }
+
+	// var fn=aa();
+	// fn();
+	// fn();
+	// fn();
+	// fn();
+	// console.log(num);
+
+	// ........
+	var arr=[2123,3435,1232,2323];
+	function pai(arr){
+		for (var i = 0; i < arr.length; i++) {
+			for (var j = i+1; j < arr.length; j++) {
+				if(arr[i]>arr[j]){
+					var newarr=arr[i];
+					arr[i]=arr[j];
+					arr[j]=newarr;
+				}
+			}
+		}
+		return arr;
+	}
+	
+	console.log(pai(arr))
+	function copy(arr){
+		var newarr=[];
+		for(var i in arr){
+			newarr[i]=arr[i];
+		}
+		return newarr;
+	}
+	//选择排序
+	function selectOrder(arr){
+		var newarr=copy(arr);
+		var tepm,MinIndex,len=newarr.length;
+		for (var i = 0; i < len; i++) {
+			MinIndex=i;
+			for (var j = i+1; j < len; j++) {
+				if (newarr[j]<newarr[MinIndex]) {
+					MinIndex=j;
+				}
+			}
+			tepm = newarr[i];
+			newarr[i] = newarr[MinIndex];
+			newarr[MinIndex] = tepm;
+		}
+		return newarr;
+	}
+	console.log(selectOrder(arr));
+	
+	//插入排序
+	function insertOrder(){
+		var newarr=copy(arr);
+		var len=newarr.length;
+		for (var i = 1; i < len; i++) {
+			var pre=i-1;
+			var curr=newarr[i];
+			while(pre>=0&&curr<newarr[pre]){
+				newarr[pre+1]=newarr[pre];
+				pre--;
+			}
+			newarr[pre+1]=curr;
+		}
+		return newarr;
+	}
+	console.log(insertOrder(arr));
+
+
+	//数组本身有一个方法
+	// var arr= [400,300,100,500,200];
+	// function sort(arr,callback){
+	// 	var len = arr.length;
+	// 	for (var i = 0; i < len; i++) {
+	// 		for (var j = i+1; j < len; j++) {
+	// 			if (callback(arr[i],arr[j])) {
+	// 				var temp=arr[i];
+	// 				arr[i]=arr[j];
+	// 				arr[j]=temp;
+	// 			}
+	// 		}
+	// 	}
+	// 	return arr;
+	// }
+	// console.log(sort(arr,function(a,b){
+	// 	return a<b;
+	// }))
+
+	//
+	window.onload=function(){
+
+		function sort(arr,callback){
+			var len = arr.length;
+			for (var i = 0; i < len; i++) {
+				for (var j = i+1; j < len; j++) {
+					if (callback(arr[i],arr[j])) {
+						var temp=arr[i];
+						arr[i]=arr[j];
+						arr[j]=temp;
+					}
+				}
+			}
+			return arr;
+		}
+		// /*var divarr = document.getElementsByTagName('div');
+		// console.log(divarr);
+		// var objarr=sort(divarr,function(a,b){
+		// 	return a.style.width>b.style.width;
+		// })
+
+		// for (var i = 0; i < objarr.length; i++) {
+		// 	document.body.appendChild(objarr[i]);
+		// }*/不对
+
+		// ........
+		var divs=document.querySelectorAll("div");//里面可以加类名
+		// console.log(divs);
+		function makeArr(arr){
+			var div = [];
+			for (var i = 0; i < arr.length; i++) {
+				// console.log(i);
+				div.push(arr[i]);
+			}
+			return div;
+		}
+		var divs=makeArr(divs);
+		console.log(divs.sort(function(a,b){
+			return a.clientWidth>b.clientWidth;
+		}));
+		divs.forEach(function(obj,index){
+			var width=obj.clientWidth;
+			var aa=obj.cloneNode(true);
+			aa.style.width=width+"px";
+			document.body.appendChild(aa);
+			// document.body.removeChild(obj);
+		})
+		divs.forEach(function(obj,index){
+			document.body.removeChild(obj);
+		})
+
+		
+		
+
+
+		// divs=array.prototype.slice.call(divs);//将类数组的方法转化成数组
+		// div.forEach()//循环
+
+	}
+	
+</script>
+<style>
+	div{
+		height: 30px;
+		background: red;
+		margin: 5px 0;
+		text-align: center;
+		line-height: 30px;
+	}
+	div:nth-child(1){
+		width: 200px;
+	}
+	div:nth-child(2){
+		width: 500px;
+	}
+	div:nth-child(3){
+		width: 100px;
+	}
+	div:nth-child(4){
+		width: 250px;
+	}
+	div:nth-child(5){
+		width: 400px;
+	}
+</style>
+<body>
+	<div >1</div>
+	<div >2</div>
+	<div >3</div>
+	<div >4</div>
+	<div >5</div>
+</body>
+</html>
